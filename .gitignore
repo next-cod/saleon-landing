@@ -1,0 +1,14 @@
+# Vercel
+.vercel
+
+# Node
+node_modules/
+npm-debug.log*
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
