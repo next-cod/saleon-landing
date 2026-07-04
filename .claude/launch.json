@@ -4,7 +4,7 @@
     {
       "name": "saleon-static",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8000"],
+      "runtimeArgs": ["dev_server.py"],
       "port": 8000
     }
   ]
