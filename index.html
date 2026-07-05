@@ -81,22 +81,27 @@
      Рукописная подпись «отвечает за 3 секунды» позиционирована абсолютно над картинкой
      и на стопке налезала на кнопки. Прячем её на узких экранах — первый пункт-буллет и так
      обещает ответ за 3 секунды, так что смысл не теряется, а герой становится чище. */
-  /* !important — потому что перебиваем инлайновые стили элементов.
-     Порог 1016px: примерно до него герой стоит в столбик (кнопки над картинкой),
-     и подпись налезала бы на кнопки — прячем её на всей «стопочной» ширине. */
-  @media (max-width: 1016px) {
-    .hero-note { display: none !important; }        /* убираем налезающую подпись на стопке */
-    .hero-visual { margin-top: 22px; }              /* немного воздуха между кнопками и картинкой */
+  /* Герой — два столбца (текст слева, картинка справа), на узких экранах встаёт в стопку.
+     Подпись «Отвечает…» живёт над картинкой только когда столбцы рядом; на стопке прячем
+     (иначе налезала бы). Кикер «ваш новый сотрудник» над заголовком показываем всегда. */
+  @media (max-width: 980px) { .hero-note { display: none !important; } }
+  /* Десктоп: текстовый столбец чуть выше картинки. */
+  @media (min-width: 981px) { .hero-text { transform: translateY(-22px); } }
+  /* Телефон/планшет: весь текст героя по центру (кикер, заголовок, кнопка). */
+  @media (max-width: 980px) {
+    .hero-text { text-align: center; }
+    .hero-text .hero-kicker { justify-content: center; }
+    .hero-actions { justify-content: center; }
+  }
+  @media (max-width: 600px) {
+    .hero-kicker span { font-size: clamp(22px, 6vw, 26px) !important; }
+    .hero-kicker img { width: 34px !important; height: 34px !important; }
   }
 
-  /* Крупнее заголовок героя на телефонах. Нижняя граница 34px — чтобы длинное
-     «Познакомьтесь,» не обрезалось на 320px; выше 11vw даёт заметный рост. */
-  @media (max-width: 600px) {
-    #top h1 { font-size: clamp(34px, 11vw, 54px) !important; }
-    /* Рукописный бейдж «ваш новый сотрудник» — чуть крупнее под увеличенный заголовок */
-    .hero-kicker span { font-size: clamp(24px, 6.6vw, 30px) !important; }
-    .hero-kicker img { width: 40px !important; height: 40px !important; }
-  }
+  /* Подсказка «листайте дальше» под геро — только на десктопе (в стопке герой высокий, она не нужна) */
+  .hero-scroll span:first-child { transition: color .25s ease; }
+  .hero-scroll:hover span:first-child { color: #E96D00; }
+  @media (max-width: 980px) { .hero-scroll { display: none !important; } }
 
   /* Кнопка «Взять в команду» переехала в шапку слева от бургера. Чтобы всё влезло
      даже на 320px, поджимаем на телефоне разрыв в шапке и чуть уменьшаем логотип. */
@@ -143,7 +148,7 @@
         </nav>
       </sc-if>
       <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
-        <div style="display:flex;align-items:center;gap:6px;margin-right:clamp(2px,calc((100vw - 335px) * 0.18),20px)">
+        <div style="display:flex;align-items:center;gap:clamp(5px,calc((100vw - 330px) * 0.11),13px);margin-right:clamp(2px,calc((100vw - 330px) * 0.06),8px)">
           <a href="#hire" class="btn-primary" style="display:inline-flex;align-items:center;background:#FF7A00;color:#FFF9F0;font:600 clamp(12.5px,3.8vw,16px) 'Golos Text',sans-serif;padding:clamp(10px,2.9vw,13px) clamp(13px,3.6vw,18px);border-radius:13px;text-decoration:none;white-space:nowrap;box-shadow:0 8px 18px -8px rgba(232,109,0,0.6)">Взять в команду</a>
           <button onClick="{{ openMenu }}" aria-label="Открыть меню" style="width:46px;height:46px;flex:none;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;border-radius:12px" style-hover="background:#FFF1DC">
             <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M3 9 L23 8" stroke="#2B2118" stroke-width="3" stroke-linecap="round"></path><path d="M3 17 L18 16.4" stroke="#2B2118" stroke-width="3" stroke-linecap="round"></path></svg>
@@ -179,39 +184,39 @@
 
   <!-- ======================= HERO ======================= -->
   <section id="top" data-screen-label="Hero" style="position:relative">
-    <div style="width:var(--cw);margin:0 auto;min-height:calc(100dvh - 70px);display:flex;flex-wrap:wrap;gap:clamp(28px,4.5vw,56px);align-items:center;justify-content:center;padding:clamp(48px,8vh,96px) 0">
+    <div class="hero-inner" style="width:var(--cw);margin:0 auto;min-height:calc(100dvh - 70px);display:flex;flex-wrap:wrap;gap:clamp(30px,4.5vw,60px);align-items:center;justify-content:center;padding:clamp(40px,7vh,90px) 0">
 
-      <div style="flex:1 1 470px;min-width:min(100%,470px)">
+      <div class="hero-text" style="flex:1 1 470px;min-width:min(100%,460px)">
         <div data-rv="up" class="hero-kicker" style="--d:.05s;display:flex;align-items:flex-end;gap:8px">
-          <span style="display:inline-block;font:600 clamp(21px,2.3vw,25px) 'Caveat',cursive;color:#E96D00;transform:rotate(-2deg)">ваш новый сотрудник</span>
-          <img src="images/arrow-o.png" alt="" aria-hidden="true" width="34" height="34" style="width:34px;height:34px;margin-bottom:2px;transform:scaleX(-1) rotate(-6deg)">
+          <span style="display:inline-block;font:600 clamp(21px,2.3vw,26px) 'Caveat',cursive;color:#E96D00;transform:rotate(-2deg)">ваш новый сотрудник</span>
+          <img src="images/arrow-o.png" alt="" aria-hidden="true" width="36" height="36" style="width:36px;height:36px;margin-bottom:-2px;transform:scaleX(-1) rotate(-6deg)">
         </div>
-        <h1 data-rv="up" style="--d:.13s;margin:12px 0 26px;font:700 clamp(34px,6vw,74px)/1.06 'Rubik',sans-serif;letter-spacing:-0.022em">Познакомьтесь,<br>это <span style="position:relative;display:inline-block;color:#FF7A00">Сэйлон<svg viewBox="0 0 220 16" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:-2%;bottom:-12px;width:104%;height:16px;overflow:visible"><path d="M5 10 Q 58 3 112 9 T 215 7" fill="none" stroke="#FF7A00" stroke-width="6" stroke-linecap="round" pathLength="1" style="animation:sk-draw 0.9s 0.8s ease-out both"></path></svg></span></h1>
-        <ul data-rv="up" style="--d:.21s;list-style:none;margin:0 0 34px;padding:0;display:flex;flex-direction:column;gap:12px">
-          <li style="display:flex;align-items:center;gap:11px;font:500 16px 'Golos Text',sans-serif;color:#3F3121"><svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true" style="flex:none"><path d="M4.5 12.5 l4.5 4.5 L20 5.5" fill="none" stroke="#FF7A00" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>Отвечает клиенту за 3 секунды</li>
-          <li style="display:flex;align-items:center;gap:11px;font:500 16px 'Golos Text',sans-serif;color:#3F3121"><svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true" style="flex:none"><path d="M4.5 12.5 l4.5 4.5 L20 5.5" fill="none" stroke="#FF7A00" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>Помнит каждый диалог и сам заполняет CRM</li>
-          <li style="display:flex;align-items:center;gap:11px;font:500 16px 'Golos Text',sans-serif;color:#3F3121"><svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true" style="flex:none"><path d="M4.5 12.5 l4.5 4.5 L20 5.5" fill="none" stroke="#FF7A00" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>Не спит, не болеет, работает 24/7</li>
-        </ul>
-        <div data-rv="up" style="--d:.29s;display:flex;flex-wrap:wrap;gap:14px;align-items:center">
-          <a href="#demo" class="btn-ghost" style="display:inline-flex;align-items:center;background:transparent;color:#2B2118;font:600 17px 'Golos Text',sans-serif;padding:14px 28px;border-radius:16px;border:2px solid rgba(43,33,24,0.8);text-decoration:none">Посмотреть его в деле</a>
+        <h1 data-rv="up" style="--d:.13s;margin:14px 0 34px;font:700 clamp(34px,10.5vw,70px)/1.04 'Rubik',sans-serif;letter-spacing:-0.022em">Познакомьтесь,<br>это <span style="position:relative;display:inline-block;color:#FF7A00;font-size:clamp(52px,15vw,94px)">Сэйлон<svg viewBox="0 0 220 16" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:-2%;bottom:-13px;width:104%;height:18px;overflow:visible"><path d="M5 10 Q 58 3 112 9 T 215 7" fill="none" stroke="#FF7A00" stroke-width="6" stroke-linecap="round" pathLength="1" style="animation:sk-draw 0.9s 0.8s ease-out both"></path></svg></span></h1>
+        <div data-rv="up" class="hero-actions" style="--d:.21s;display:flex;flex-wrap:wrap;gap:14px">
+          <a href="#demo" class="btn-ghost hero-cta" style="display:inline-flex;align-items:center;background:transparent;color:#2B2118;font:600 17px 'Golos Text',sans-serif;padding:14px 30px;border-radius:16px;border:2px solid rgba(43,33,24,0.8);text-decoration:none">Посмотреть его в деле</a>
         </div>
       </div>
 
-      <div data-rv="zoom" class="hero-visual" style="--d:.18s;flex:1 1 420px;min-width:min(100%,400px);position:relative">
-        <div style="position:relative;width:min(100%,500px);margin:0 auto;aspect-ratio:1/1">
+      <div data-rv="zoom" class="hero-visual" style="--d:.18s;flex:1 1 440px;min-width:min(100%,400px);position:relative">
+        <div style="position:relative;width:min(100%,520px);margin:0 auto;aspect-ratio:1/1">
           <div style="position:absolute;left:50%;top:49%;width:80%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:#FFC93C;opacity:0.26"></div>
           <div style="position:absolute;left:50%;top:49%;width:54%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:#FFC93C;opacity:0.30"></div>
           <img src="images/desk.webp" alt="Сэйлон в гарнитуре отвечает клиентам за ноутбуком" width="1000" height="1000" fetchpriority="high" decoding="async" class="lift-img" style="position:relative;display:block;width:100%;height:auto">
         </div>
 
         <sc-if value="{{ showScribbles }}" hint-placeholder-val="{{ true }}">
-          <div data-rv="fade" class="hero-note" style="--d:.6s;position:absolute;top:-11%;left:0%;display:flex;flex-direction:column;align-items:flex-start;gap:0;pointer-events:none">
+          <div class="hero-note" style="position:absolute;top:-9%;left:8%;display:flex;flex-direction:column;align-items:flex-start;pointer-events:none">
             <span style="font:700 clamp(20px,2.1vw,24px) 'Caveat',cursive;color:#8A5A33;transform:rotate(-3deg);white-space:nowrap">Отвечает клиенту за 3 секунды</span>
-            <img src="images/arrow-b.png" alt="" aria-hidden="true" width="40" height="40" loading="lazy" decoding="async" style="width:40px;height:40px;margin:-2px 0 0 104px;transform:scaleX(-1) rotate(26deg)">
+            <img src="images/arrow-b.png" alt="" aria-hidden="true" width="40" height="40" loading="lazy" decoding="async" style="width:40px;height:40px;margin:20px 0 0 34px;transform:rotate(-60deg)">
           </div>
         </sc-if>
       </div>
     </div>
+
+    <a href="#skills" class="hero-scroll" aria-label="Листайте дальше" style="position:absolute;left:50%;bottom:clamp(14px,2.4vh,30px);transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:7px;text-decoration:none">
+      <span style="font:600 21px 'Caveat',cursive;color:#B97A3F;transform:rotate(-2deg)">листайте дальше</span>
+      <svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9 L12 15 L18 9" fill="none" stroke="#FF7A00" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </a>
   </section>
 
   <!-- ======================= ВОЗМОЖНОСТИ ======================= -->
